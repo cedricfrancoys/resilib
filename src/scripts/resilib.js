@@ -11,8 +11,8 @@ var resilib = angular.module('resilib', [
         restrict: 'A',
         link: function($scope, element, attrs) {
             console.log('category-tree directive');
-            $scope.$on('categoriesUpdate', function(event) {
-                console.log('categoriesUpdate event received');
+            $scope.$on('categoriesReady', function(event) {
+                console.log('categoriesReady event received');
                 // wait for rendering to complete
                 $timeout(function() {
                     console.log('enriching categrories tree');
@@ -41,8 +41,8 @@ var resilib = angular.module('resilib', [
         restrict: 'C',
         link: function($scope, element, attrs) {
             console.log('chosen-select directive');
-            $scope.$on('categoriesUpdate', function(event) {
-                console.log('categoriesUpdate event triggered');
+            $scope.$on('categoriesReady', function(event) {
+                console.log('categoriesReady event triggered');
                 // wait for rendering to complete
                 $timeout(function() {                
                     element
@@ -70,7 +70,6 @@ var resilib = angular.module('resilib', [
                     tab_id = $(this).find('a').attr('href');
                     $(tab_id).show();
                 });
-                // items.find('a').on('click', function(event){ event.preventDefault(); });
             });
         }
     };
@@ -97,7 +96,7 @@ var resilib = angular.module('resilib', [
         restrict: 'A',
         link: function($scope, element, attrs) {
             // wait for rendering to complete
-            $timeout(function() {    
+            $scope.$on('domReady', function(event) {             
                 var tabs_abs_top = element.offset().top - parseFloat(element.css('marginTop').replace(/auto/, 0));
                 var tabs_rel_top = element.position().top;		
                 $(window).scroll(function (event) {
@@ -144,14 +143,14 @@ var resilib = angular.module('resilib', [
     // dependencies
     '$scope',
     '$http',
+    '$timeout',
     '$dataProvider',
     // declarations
-    function($scope, $http, $dataProvider) {
+    function($scope, $http, $timeout, $dataProvider) {
         console.log('mainCtrl controller init');
 
         //model definition
         $scope.domReady = false;
-        $scope.viewReady = 0;
         $scope.selectedDocument = false;        
         $scope.documents = {};
         $scope.categories = {};
@@ -180,12 +179,6 @@ var resilib = angular.module('resilib', [
             'solar-heaters':            { category: 'energy/thermal-energy/heating/solar', picture: 'src/img/therm_solaire.png'}
         };
 
-        // on ngView ready
-        $scope.$watch('$viewContentLoaded', function(){
-            console.log('DOM ready');
-            $scope.domReady = true;
-            ++$scope.viewReady;
-        }); 
         
         // @init
         // request categories for building UI widgets
@@ -197,8 +190,14 @@ var resilib = angular.module('resilib', [
                 $scope.categories = categories;
                 // console.log(categories);
                 $scope.categories.flat = $scope.getFlatCategories();
-                $scope.$broadcast('categoriesUpdate');
-                ++$scope.viewReady;
+                $scope.$broadcast('categoriesReady');
+                // wait for rendering to complete
+                $timeout(function() {    
+                    $scope.domReady = true;
+                    angular.element('#root').show();
+                    $scope.$broadcast('domReady');
+                });
+                
             });            
         });
         // request content for root category
@@ -207,7 +206,6 @@ var resilib = angular.module('resilib', [
             $scope.documents = response.data.result;
             $scope.pagingOptions.totalRecords = response.data.total;                
             $scope.pagingOptions.totalPages = Math.ceil($scope.pagingOptions.totalRecords / $scope.pagingOptions.resultsPerPage);
-            ++$scope.viewReady;
         });
         
         // methods definitions

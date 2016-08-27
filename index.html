@@ -77,7 +77,7 @@
     </div>
 
 
-    <div id="root" class="simple-tabs" ng-cloak ng-view>
+    <div id="root" class="simple-tabs" style="display: none;">
         <ul class="simpleTabsNavigation">
             <li class="current"><a href="#page-1">{{ ui.i18n.search }}</a></li>
             <li><a href="#page-2">{{ ui.i18n.presentation }}</a></li>
@@ -225,8 +225,8 @@
                 </table>
             </div>
         </div>
-        <div id="page-2" class="simpleTabsContent" ng-include="'packages/resilib/html/presentation.html'"></div>
-        <div id="page-3" class="simpleTabsContent" ng-include="'packages/resilib/html/contribute.html'"></div>
+        <div id="page-2" class="simpleTabsContent" ng-include="'src/i18n/presentation.fr.html'"></div>
+        <div id="page-3" class="simpleTabsContent" ng-include="'src/i18n/contribute.fr.html'"></div>
     </div>
 
     <div id="footer" ng-hide="!domReady">Août 2016 &nbsp;&bull;&nbsp; 110 documents référencés dans 3 langues et 94 catégories<br />Resilib est une initiative citoyenne &nbsp;&bull;&nbsp; Le contenu de ce site est librement partageable </div>
