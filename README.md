@@ -10,5 +10,6 @@ It is a resilient digital library that consists of a collection of documents pub
 To install it on your server, go to your webservice 'www' directory and simply clone it from one of the available git repositories.  
 
 
-**Example:**
+**Example:**  
+
     git clone https://github.com/cedricfrancoys/resilib.git
