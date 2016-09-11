@@ -38,6 +38,29 @@
                 <td class="right">{{ selectedDocument.author }}</td>
             </tr>
             <tr>
+                <td class="left">{{ ui.i18n['details-links'] }}</td>
+                <td class="right">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                    <a href="data/download.php?id={{ selectedDocument.id }}" type="application/pdf" download="{{ selectedDocument.id }}.pdf" target="_self">{{ ui.i18n['details-links-download'] }}</a>
+                    &nbsp;&nbsp;<i class="fa fa-ellipsis-v" aria-hidden="true"></i>&nbsp;&nbsp;
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    <a href="{{ selectedDocument['url-download'] }}" type="application/pdf" target="_blank">{{ ui.i18n['details-links-see'] }}</a>                    
+                    &nbsp;&nbsp;<i class="fa fa-ellipsis-v" aria-hidden="true"></i>&nbsp;&nbsp;                    
+                    
+                    <!-- <a href="#{{ selectedDocument.id }}" target="_blank">{{ ui.i18n['details-links-share'] }}</a>  --> 
+
+                      
+<i class="fa fa-facebook-square" aria-hidden="true"></i>
+<a href="https://www.facebook.com/dialog/feed?app_id=1786954014889199
+&display=page
+&redirect_uri=http://www.resiway.org/resilib
+&caption=ResiLib - {{ selectedDocument.title }}
+&link=http%3A//www.resiway.org/resilib/%23{{ selectedDocument.id }}
+&description={{ selectedDocument.description }}" target="_blank">{{ ui.i18n['details-links-share'] }}</a>
+  
+                </td>
+            </tr>           
+            <tr>
                 <td class="left">{{ ui.i18n['details-language'] }}</td>
                 <td class="right">{{ selectedDocument.language }}</td>
             </tr>
@@ -52,10 +75,6 @@
             <tr>
                 <td class="left">{{ ui.i18n['details-license'] }}</td>
                 <td class="right">{{ selectedDocument.license }}</td>
-            </tr>
-            <tr>
-                <td class="left">{{ ui.i18n['details-url-download'] }}</td>
-                <td class="right"><a href="{{ selectedDocument['url-download'] }}" target="_blank">{{ ui.i18n['details-download-value'] }}</a></td>
             </tr>
             <tr>
                 <td class="left">{{ ui.i18n['details-size'] }}</td>

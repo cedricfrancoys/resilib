@@ -301,6 +301,7 @@ var resilib = angular.module('resilib', ['ngRoute',
         */        
         $scope.displayDetails = function(document_id) {
             $scope.selectedDocument = $scope.documents[document_id];
+            $scope.selectedDocument.id = document_id;
             angular.element('#details_dialog')
             .dialog({
                 autoOpen: true,
@@ -358,5 +359,5 @@ var resilib = angular.module('resilib', ['ngRoute',
 ])
 .config(function ($locationProvider) {
     // enable HTML5mode to disable hashbang urls
-    $locationProvider.html5Mode({enabled: true, requireBase: false});
+    $locationProvider.html5Mode({enabled: true, requireBase: false, rewriteLinks: false}).hashPrefix('!');
 });
