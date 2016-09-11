@@ -79,6 +79,13 @@ function get_documents() {
     return $documents;
 }
 
+/* Checks if a document exists, based on its unique id
+*/
+function document_exists($id) {
+    $dir = HOME_DIR.'documents/'.$id;
+    return ( file_exists($dir) && is_dir($dir) );
+}
+
 /* Returns meta data for a given document
 */
 function get_document_meta($document) {
@@ -178,17 +185,22 @@ function search_documents($criteria, $recurse=true) {
     if(!is_array($criteria['categories'])) $criteria['categories'] = (array) $criteria['categories'];
 
     $documents = [];
-    if(empty($criteria['categories'])) {
-        $documents = get_documents();
+    
+    if(isset($criteria['id']) && document_exists($criteria['id'])) {
+        $documents[] = $criteria['id'];
     }
     else {
-        foreach($criteria['categories'] as $category) {
-            $documents = array_merge($documents, get_category_documents($category, $recurse));
+        if(empty($criteria['categories'])) {
+            $documents = get_documents();
         }
-        // some documents might be duplicates (if they belong to several sub-categories)
-        $documents = array_unique($documents);
+        else {
+            foreach($criteria['categories'] as $category) {
+                $documents = array_merge($documents, get_category_documents($category, $recurse));
+            }
+            // some documents might be duplicates (if they belong to several sub-categories)
+            $documents = array_unique($documents);
+        }
     }
-
     // apply additional filters:
     foreach($documents as $key => $document) {
         // check author

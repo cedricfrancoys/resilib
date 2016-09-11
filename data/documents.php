@@ -9,44 +9,49 @@ $params = announce([
     'params' 		=> [
     
         'categories'=> [
-                    'description' => 'Categories to look within.',
-                    'type' => 'array',
-                    'default' => null
-                    ],                        
+                        'description' => 'Categories to look within.',
+                        'type' => 'array',
+                        'default' => null
+                    ],
+        'id'     => [
+                        'description' => 'Identifier of an unique document.',
+                        'type' => 'string',
+                        'default' => null
+                    ],                          
         'title'     => [
-                    'description' => 'Needle to look for in the title.',
-                    'type' => 'string',
-                    'default' => null
+                        'description' => 'Needle to look for in the title.',
+                        'type' => 'string',
+                        'default' => null
                     ],                        
         'author'    => [
-                    'description' => 'Needle for the author name.',
-                    'type' => 'string',
-                    'default' => null
+                        'description' => 'Needle for the author name.',
+                        'type' => 'string',
+                        'default' => null
                     ],
         'language'  => [
-                    'description' => 'Language of the documents to search.',
-                    'type' => 'string', 
-                    'default' => null
+                        'description' => 'Language of the documents to search.',
+                        'type' => 'string', 
+                        'default' => null
                     ],
         'ui'        => [
-                    'description' => 'Language in which display categories names.',
-                    'type' => 'string', 
-                    'default' => 'en'
+                        'description' => 'Language in which display categories names.',
+                        'type' => 'string', 
+                        'default' => 'en'
                     ],                    
         'recurse'   => [
-                    'description' => 'Search for documents in sub-categories.',
-                    'type' => 'bool', 
-                    'default' => true
+                        'description' => 'Search for documents in sub-categories.',
+                        'type' => 'bool', 
+                        'default' => true
                     ],                        
         'start'     => [
-                    'description' => 'Position in the result set we want to start at.',
-                    'type' => 'integer', 
-                    'default' => '0'          
+                        'description' => 'Position in the result set we want to start at.',
+                        'type' => 'integer', 
+                        'default' => '0'          
                     ],
         'limit'     => [
-                    'description' => 'Number of records to return.',
-                    'type' => 'integer', 
-                    'default' => null          
+                        'description' => 'Number of records to return.',
+                        'type' => 'integer', 
+                        'default' => null          
                     ]         
     ]
 ]);
