@@ -1,6 +1,6 @@
 'use strict';
 
-var resilib = angular.module('resilib', [
+var resilib = angular.module('resilib', ['ngRoute',
     // dependencies
     function() {
         console.log('resilib module init');
@@ -69,6 +69,7 @@ var resilib = angular.module('resilib', [
                     $(tab_id).hide();
                     tab_id = $(this).find('a').attr('href');
                     $(tab_id).show();
+                    return false;
                 });
             });
         }
@@ -145,10 +146,11 @@ var resilib = angular.module('resilib', [
     '$http',
     '$timeout',
     '$dataProvider',
+    '$location',
     // declarations
-    function($scope, $http, $timeout, $dataProvider) {
+    function($scope, $http, $timeout, $dataProvider, $location) {
         console.log('mainCtrl controller init');
-
+   
         //model definition
         $scope.domReady = false;
         $scope.selectedDocument = false;        
@@ -181,6 +183,7 @@ var resilib = angular.module('resilib', [
 
         
         // @init
+        
         // request categories for building UI widgets
         $dataProvider.getCategories($scope.ui.lang)
         .done(function (categories) {
@@ -200,13 +203,28 @@ var resilib = angular.module('resilib', [
                 
             });            
         });
-        // request content for root category
-        $dataProvider.getDocuments("categories=''", false)
+        
+        // request content for initial display 
+        var documents_query, recurse = false;
+        // default is root category
+        if(angular.isUndefined($location.search().category)) {
+            documents_query = "categories=''";
+        }
+        else {
+            documents_query = "categories="+$location.search().category;
+            recurse = true;
+        }
+        // if hash is specified, limit initial display to the document matching the given hash as identifier
+        if($location.hash().length) {
+            documents_query = "id="+$location.hash();
+        }
+        $dataProvider.getDocuments(documents_query, recurse)
         .then(function (response) {
             $scope.documents = response.data.result;
             $scope.pagingOptions.totalRecords = response.data.total;                
             $scope.pagingOptions.totalPages = Math.ceil($scope.pagingOptions.totalRecords / $scope.pagingOptions.resultsPerPage);
         });
+
         
         // methods definitions
         
@@ -337,4 +355,8 @@ var resilib = angular.module('resilib', [
         };
         
     }
-]);
+])
+.config(function ($locationProvider) {
+    // enable HTML5mode to disable hashbang urls
+    $locationProvider.html5Mode({enabled: true, requireBase: false});
+});
