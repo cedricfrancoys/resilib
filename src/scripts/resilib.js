@@ -163,10 +163,17 @@ var resilib = angular.module('resilib', ['ngRoute',
             totalRecords: 1,
             criteria: {}
         };
-        $scope.ui = {};        
+        $scope.ui = {};
         $scope.ui.lang = 'fr';
         $scope.ui.i18n = i18n[$scope.ui.lang];
 
+        // explicit names of the documents languages (might differ from languages supported by the UI)
+        $scope.languages = {
+            'en': 'English',
+            'fr': 'Français',
+            'es': 'Español'
+        };
+        
         $scope.quickSearchItems = {
             'composting':               { category: 'food/composting', picture: 'src/img/compost.png'},                        
             'self-build':               { category: 'home/self-build', picture: 'src/img/construction_habitation.png'},            
