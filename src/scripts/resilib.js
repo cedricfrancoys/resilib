@@ -166,7 +166,11 @@ var resilib = angular.module('resilib', ['ngRoute',
         $scope.ui = {};
         $scope.ui.lang = 'fr';
         $scope.ui.i18n = i18n[$scope.ui.lang];
-
+        
+        $scope.$watch('ui.lang', function() {
+            $scope.ui.i18n = i18n[$scope.ui.lang];
+        });
+        
         // explicit names of the documents languages (might differ from languages supported by the UI)
         $scope.languages = {
             'en': 'English',

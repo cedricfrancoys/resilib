@@ -58,8 +58,8 @@
                     &nbsp;&nbsp;<i class="fa fa-ellipsis-v" aria-hidden="true"></i>&nbsp;&nbsp;                    
                     <!-- <a href="#{{ selectedDocument.id }}" target="_blank">{{ ui.i18n['details-links-share'] }}</a>  --> 
                       
-<i class="fa fa-facebook-square" aria-hidden="true"></i>
-<a href="https://www.facebook.com/dialog/feed?
+                    <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                    <a href="https://www.facebook.com/dialog/feed?
 app_id=1786954014889199
 &display=page
 &redirect_uri=http%3A//www.resiway.org/resilib
@@ -102,13 +102,17 @@ app_id=1786954014889199
                     </ul>
                 </td>
             </tr>
-            <!-- details template start -->
 
         </table>
+       <!-- details template end -->
+            
     </div>
 
-
     <div id="root" class="simple-tabs" style="display: none;">
+        <div style="position: absolute; top: 10px; right: 0px; margin-right: 50px; font-family: Lucida Grande,Arial; font-size: 14px;">
+        <a href="#" ng-click="ui.lang = 'fr'">français</a> | <a href="#" ng-click="ui.lang = 'en'">english</a> | <a href="#" ng-click="ui.lang = 'es'">español</a>
+        </div>
+        
         <ul class="simpleTabsNavigation">
             <li class="current"><a href="#page-1">{{ ui.i18n.search }}</a></li>
             <li><a href="#page-2">{{ ui.i18n.presentation }}</a></li>
@@ -117,9 +121,9 @@ app_id=1786954014889199
         <div id="page-1" class="simpleTabsContent" style="display: block;">
 
             <div style="text-align: center; font-size: 18pt; font-family: Lucida Grande,Arial;">
-                <span style="font-size: 15pt;" class="fa fa-file-text-o"></span>&nbsp;110 documents&nbsp;&nbsp;&nbsp;&nbsp;
-                <span style="font-size: 18pt;"class="fa fa-folder-o"></span>&nbsp;94 catégories&nbsp;&nbsp;&nbsp;&nbsp;       
-                <span style="font-size: 18pt;" class="fa fa-language"></span>&nbsp;3 langues
+                <span style="font-size: 15pt;" class="fa fa-file-text-o"></span>&nbsp;110 {{ ui.i18n['documents'].toLowerCase() }}&nbsp;&nbsp;&nbsp;&nbsp;
+                <span style="font-size: 18pt;"class="fa fa-folder-o"></span>&nbsp;94 {{ ui.i18n['categories'].toLowerCase() }}&nbsp;&nbsp;&nbsp;&nbsp;       
+                <span style="font-size: 18pt;" class="fa fa-language"></span>&nbsp;3 {{ ui.i18n['languages'].toLowerCase() }}
             </div>
             <div style="position: relative; display: table; margin: 0; padding: 0; height: 100px; width: 100%;" >
                 <div class="quick-search-dock">
