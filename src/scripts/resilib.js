@@ -114,12 +114,12 @@ var resilib = angular.module('resilib', ['ngRoute',
     '$http',
     function($http) {
         // use a deferred object as buffer for the service
-        var categoriesDeferred = null;
+        var categoriesDeferred = {'fr': null, 'es': null, 'en': null};
         
         this.getCategories = function(lang) {
-            if(!categoriesDeferred) {
-                categoriesDeferred = $.Deferred();
-                console.log('requesting categories');
+            if(!categoriesDeferred[lang]) {
+                categoriesDeferred[lang] = $.Deferred();
+                console.log('requesting categories for language '+lang);
                 $.ajax({
                     type: 'GET',
                     url: 'data/categories.php?recurse=1&lang='+lang,
@@ -127,10 +127,10 @@ var resilib = angular.module('resilib', ['ngRoute',
                     contentType: 'application/json; charset=utf-8',
                 })
                 .done(function (data) {
-                    categoriesDeferred.resolve(data);
+                    categoriesDeferred[lang].resolve(data);
                 });
             }
-            return categoriesDeferred.promise();
+            return categoriesDeferred[lang].promise();
         };
         
         this.getDocuments = function(criteria, recurse) {
@@ -163,13 +163,7 @@ var resilib = angular.module('resilib', ['ngRoute',
             totalRecords: 1,
             criteria: {}
         };
-        $scope.ui = {};
-        $scope.ui.lang = 'fr';
-        $scope.ui.i18n = i18n[$scope.ui.lang];
-        
-        $scope.$watch('ui.lang', function() {
-            $scope.ui.i18n = i18n[$scope.ui.lang];
-        });
+
         
         // explicit names of the documents languages (might differ from languages supported by the UI)
         $scope.languages = {
@@ -178,6 +172,7 @@ var resilib = angular.module('resilib', ['ngRoute',
             'es': 'Español'
         };
         
+        // info for quicksearch logos and related categories
         $scope.quickSearchItems = {
             'composting':               { category: 'food/composting', picture: 'src/img/compost.png'},                        
             'self-build':               { category: 'home/self-build', picture: 'src/img/construction_habitation.png'},            
@@ -194,26 +189,35 @@ var resilib = angular.module('resilib', ['ngRoute',
 
         
         // @init
+        $scope.ui = {};
+        $scope.ui.lang;
         
-        // request categories for building UI widgets
-        $dataProvider.getCategories($scope.ui.lang)
-        .done(function (categories) {
-            // force watching for some actions
-            $scope.$apply(function() {
-                // update model
-                $scope.categories = categories;
-                // console.log(categories);
-                $scope.categories.flat = $scope.getFlatCategories();
-                $scope.$broadcast('categoriesReady');
-                // wait for rendering to complete
-                $timeout(function() {    
-                    $scope.domReady = true;
-                    angular.element('#root').show();
-                    $scope.$broadcast('domReady');
-                });
-                
+        $scope.$watch('ui.lang', function() {
+            $scope.ui.i18n = i18n[$scope.ui.lang];
+            // request categories for building UI widgets
+            $dataProvider.getCategories($scope.ui.lang)
+            .done(function (categories) {
+                // force watching for some actions
+                $scope.$apply(function() {
+                    // update model
+                    $scope.categories = categories;
+                    // console.log(categories);
+                    $scope.categories.flat = $scope.getFlatCategories();
+                    $scope.$broadcast('categoriesReady');
+                    // wait for rendering to complete
+                    $timeout(function() {    
+                        $scope.domReady = true;
+                        angular.element('#root').show();
+                        $scope.$broadcast('domReady');
+                    });
+                    
+                });            
             });            
-        });
+        });       
+
+        // set to default language 
+        $scope.ui.lang = 'fr';
+        $scope.ui.i18n = i18n[$scope.ui.lang];
         
         // request content for initial display 
         var documents_query, recurse = false;
@@ -324,7 +328,12 @@ var resilib = angular.module('resilib', ['ngRoute',
                     at: "center top+15%",
                     of: window
                 },
-                buttons: { 'fermer': function() { $scope.selectedDocument = false; $(this).dialog('close'); } }
+                buttons:[ 
+                            {
+                                text: $scope.ui.i18n['details-close'],
+                                click: function() { $scope.selectedDocument = false; $(this).dialog('close'); }
+                            }
+                        ]
             });
         };
 

@@ -33,6 +33,7 @@ var i18n = {
         'details-license': 'License',
         'details-size': 'Size',
         'details-url-origin': 'Original URL',
+        'details-close': 'Close',
         'loading': 'Loading in progress...'
     },
     fr: {
@@ -69,6 +70,7 @@ var i18n = {
         'details-license': 'Licence',
         'details-size': 'Taille',
         'details-url-origin': 'Emplacement d\'origine',
+        'details-close': 'Fermer',        
         'loading': 'Chargement en cours...'
     },
     es: {
@@ -105,6 +107,7 @@ var i18n = {
         'details-license': 'Licencia',
         'details-size': 'Tamaño',
         'details-url-origin': 'Colocación de origen',
+        'details-close': 'Cerrar',        
         'loading': 'Cargando...'
     }
 };
