@@ -189,6 +189,7 @@ var resilib = angular.module('resilib', ['ngRoute',
 
         
         // @init
+        $scope.init = true;
         $scope.ui = {};
         $scope.ui.lang;
         
@@ -197,21 +198,29 @@ var resilib = angular.module('resilib', ['ngRoute',
             // request categories for building UI widgets
             $dataProvider.getCategories($scope.ui.lang)
             .done(function (categories) {
-                // force watching for some actions
-                $scope.$apply(function() {
+                if($scope.init) {
+                    $scope.init = false;
+                    // force watching for some actions
+                    $scope.$apply(function() {
+                        // update model
+                        $scope.categories = categories;
+                        $scope.categories.flat = $scope.getFlatCategories();
+                        $scope.$broadcast('categoriesReady');
+                        // wait for rendering to complete
+                        $timeout(function() {    
+                            $scope.domReady = true;
+                            angular.element('#root').show();
+                            $scope.$broadcast('domReady');
+                        });
+                        
+                    });
+                }
+                else {
                     // update model
                     $scope.categories = categories;
-                    // console.log(categories);
                     $scope.categories.flat = $scope.getFlatCategories();
                     $scope.$broadcast('categoriesReady');
-                    // wait for rendering to complete
-                    $timeout(function() {    
-                        $scope.domReady = true;
-                        angular.element('#root').show();
-                        $scope.$broadcast('domReady');
-                    });
-                    
-                });            
+                }
             });            
         });       
 
