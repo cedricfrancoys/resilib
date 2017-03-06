@@ -227,12 +227,26 @@ var resilib = angular.module('resilib', ['ngRoute',
         // set to default language 
         $scope.ui.lang = 'fr';
         $scope.ui.i18n = i18n[$scope.ui.lang];
-        
+
+
+// Supported URL syntax are:
+// http://localhost/resilib/# (all docs)
+// http://localhost/resilib/?category=water
+// http://localhost/resilib/#ACF-Action-contre-la-faim_Assemblage-de-filtre-a-sable-pour-le-traitement-de-leau-a-domicile_2008_fr
+
         // request content for initial display 
         var documents_query, recurse = false;
-        // default is root category
+        
         if(angular.isUndefined($location.search().category)) {
-            documents_query = "categories=''";
+            // if hash is specified with no arg, display all docs
+            if (location.href.indexOf("#") != -1) {
+                documents_query = "limit=10";
+                recurse = true;
+            }
+            // otherwise default is root category
+            else {
+                documents_query = "categories=''";
+            }
         }
         else {
             documents_query = "categories="+$location.search().category;
