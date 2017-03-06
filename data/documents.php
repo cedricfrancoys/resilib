@@ -1,7 +1,7 @@
 <?php
 
 require_once('resilib.api.php');
-
+error_reporting(0);
 
 // announce script and fetch parameters values
 $params = announce([
