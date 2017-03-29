@@ -1,5 +1,5 @@
 <?php
-define('HOME_URL', str_replace(str_replace(DIRECTORY_SEPARATOR, '/', $_SERVER['DOCUMENT_ROOT']), 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/', dirname( str_replace(DIRECTORY_SEPARATOR, '/', __FILE__) )) );
+define('HOME_URL', str_replace(str_replace(DIRECTORY_SEPARATOR, '/', $_SERVER['DOCUMENT_ROOT']), '//'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/', dirname( str_replace(DIRECTORY_SEPARATOR, '/', __FILE__) )) );
 define('HOME_DIR', realpath( dirname(__FILE__) ).DIRECTORY_SEPARATOR);
 
 
